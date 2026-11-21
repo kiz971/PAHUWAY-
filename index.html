@@ -10,16 +10,26 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="Pahuway Movies home">
-      <span class="brand-mark">P</span>
-      <span>PAHUWAY <b>MOVIES</b></span>
-    </a>
-    <nav>
-      <a href="#library">Browse</a>
-      <button id="adminToggle" class="outline-btn">Admin Login</button>
-    </nav>
-  </header>
+  
+<header class="topbar">
+  <a class="brand" href="./" aria-label="Pahuway Movies home">
+    <span class="brand-mark">P</span>
+    <span>PAHUWAY <b>MOVIES</b></span>
+  </a>
+
+  <div class="toolbar">
+    <input id="searchInput" type="search" placeholder="Search movies..." aria-label="Search movies">
+    <select id="categoryFilter" aria-label="Filter by category">
+      <option value="All">All categories</option>
+    </select>
+  </div>
+
+  <nav>
+    <a href="#library">Browse</a>
+    <button id="adminToggle" class="outline-btn">Admin Login</button>
+  </nav>
+</header>
+
 
   <main>
     <section class="hero">
@@ -44,12 +54,7 @@
         <div><p class="eyebrow">THE COLLECTION</p><h2>Movie library</h2></div>
         <span id="movieCount" class="count">0 titles</span>
       </div>
-      <div class="toolbar">
-        <input id="searchInput" type="search" placeholder="Search movies..." aria-label="Search movies">
-        <select id="categoryFilter" aria-label="Filter by category">
-          <option value="All">All categories</option>
-        </select>
-      </div>
+      
       <div id="movieGrid" class="movie-grid"></div>
       <div id="emptyState" class="empty-state">
         <div class="empty-icon">▣</div>
