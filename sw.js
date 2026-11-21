@@ -1,5 +1,5 @@
 
-const CACHE = "pahuway-movies-v2";
+const CACHE = "pahuway-movies-v3";
 
 const FILES = [
   "./",
