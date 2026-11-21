@@ -122,9 +122,38 @@ function render() {
     genre.textContent = movie.genre;
 
     info.append(title, genre);
-    card.append(poster, info);
 
+    if (isAdmin) {
+      const actions = document.createElement("div");
+      actions.className = "movie-actions";
+
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.className = "outline-btn";
+      editButton.textContent = "EDIT";
+
+      editButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        editMovie(movie);
+      });
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "outline-btn";
+      deleteButton.textContent = "DELETE";
+
+      deleteButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        deleteMovie(movie);
+      });
+
+      actions.append(editButton, deleteButton);
+      info.append(actions);
+    }
+
+    card.append(poster, info);
     card.addEventListener("click", () => showMovie(movie));
+
     $("movieGrid").append(card);
   });
 
@@ -142,7 +171,70 @@ function render() {
 
   $("categoryFilter").value =
     categories.includes(old) ? old : "All";
+                 } 
+
+async function editMovie(movie) {
+  if (!isAdmin) return;
+
+  const title = prompt("Movie title:", movie.title);
+  if (title === null || !title.trim()) return;
+
+  const category = prompt("Category:", movie.genre);
+  if (category === null || !category.trim()) return;
+
+  const poster = prompt("Poster image URL:", movie.poster);
+  if (poster === null) return;
+
+  const video = prompt("Authorized video URL:", movie.video);
+  if (video === null) return;
+
+  const description = prompt("Description:", movie.description);
+  if (description === null) return;
+
+  const updates = {
+    title: title.trim(),
+    category: category.trim(),
+    poster_url: safeUrl(poster) || null,
+    video_url: safeUrl(video) || null,
+    description: description.trim()
+  };
+
+  const { error } = await db
+    .from("movies")
+    .update(updates)
+    .eq("id", movie.id);
+
+  if (error) {
+    alert("Unable to update movie: " + error.message);
+    return;
+  }
+
+  alert("Movie updated successfully!");
+  await loadMovies();
 }
+
+async function deleteMovie(movie) {
+  if (!isAdmin) return;
+
+  const confirmed = confirm(
+    `Are you sure you want to delete "${movie.title}"?`
+  );
+
+  if (!confirmed) return;
+
+  const { error } = await db
+    .from("movies")
+    .delete()
+    .eq("id", movie.id);
+
+  if (error) {
+    alert("Unable to delete movie: " + error.message);
+    return;
+  }
+
+  alert("Movie deleted successfully!");
+  await loadMovies();
+          }
 
 function showMovie(movie) {
   const wrap = $("dialogContent");
