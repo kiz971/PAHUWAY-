@@ -1,0 +1,9 @@
+{
+  "name": "Pahuway Movies",
+  "short_name": "Pahuway",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d1018",
+  "theme_color": "#10131d",
+  "description": "Pahuway Movies web app"
+}
