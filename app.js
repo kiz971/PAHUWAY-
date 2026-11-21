@@ -306,7 +306,9 @@ $("year").textContent = new Date().getFullYear();
 setAdminUI();
 loadMovies();
 
-db.auth.onAuthStateChange(async () => {
-  await checkAdmin();
-  await loadMovies();
+db.auth.onAuthStateChange(() => {
+  setTimeout(() => {
+    checkAdmin();
+    loadMovies();
+  }, 0);
 });
