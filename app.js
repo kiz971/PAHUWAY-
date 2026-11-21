@@ -1,7 +1,7 @@
 
 // PAHUWAY MOVIES - SUPABASE VERSION
 
-const SUPABASE_URL = "https://zuyaeswuulvwyrpdhuhi.supabase.co/";
+const SUPABASE_URL = "https://zuyaeswuulvwyrpdhuhi.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_OLDcO2J5a8NsY4UwqaIXJQ_eg5vJEkk";
 
 const db = window.supabase.createClient(
