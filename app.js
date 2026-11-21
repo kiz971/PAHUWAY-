@@ -235,7 +235,7 @@ async function deleteMovie(movie) {
   alert("Movie deleted successfully!");
   await loadMovies();
           }
-
+ 
 function showMovie(movie) {
   const wrap = $("dialogContent");
   wrap.innerHTML = "";
