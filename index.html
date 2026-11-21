@@ -11,8 +11,14 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="./" aria-label="Pahuway Movies home"><span class="brand-mark">P</span><span>PAHUWAY <b>MOVIES</b></span></a>
-    <nav><a href="#library">Browse</a><button id="adminToggle" class="outline-btn">Admin demo</button></nav>
+    <a class="brand" href="./" aria-label="Pahuway Movies home">
+      <span class="brand-mark">P</span>
+      <span>PAHUWAY <b>MOVIES</b></span>
+    </a>
+    <nav>
+      <a href="#library">Browse</a>
+      <button id="adminToggle" class="outline-btn">Admin Login</button>
+    </nav>
   </header>
 
   <main>
@@ -23,36 +29,94 @@
         <p class="hero-desc">Welcome to Pahuway Movies. Browse your collection and settle in for a good watch.</p>
         <a class="primary-btn" href="#library">Explore library <span aria-hidden="true">→</span></a>
       </div>
-      <div class="hero-art" aria-hidden="true"><div class="screen"><div class="play">▶</div><div class="screen-glow"></div></div><span class="spark s1">✦</span><span class="spark s2">✧</span></div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="screen">
+          <div class="play">▶</div>
+          <div class="screen-glow"></div>
+        </div>
+        <span class="spark s1">✦</span>
+        <span class="spark s2">✧</span>
+      </div>
     </section>
 
     <section id="library" class="library">
-      <div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Movie library</h2></div><span id="movieCount" class="count">0 titles</span></div>
+      <div class="section-heading">
+        <div><p class="eyebrow">THE COLLECTION</p><h2>Movie library</h2></div>
+        <span id="movieCount" class="count">0 titles</span>
+      </div>
       <div class="toolbar">
         <input id="searchInput" type="search" placeholder="Search movies..." aria-label="Search movies">
-        <select id="categoryFilter" aria-label="Filter by category"><option value="All">All categories</option></select>
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="All">All categories</option>
+        </select>
       </div>
       <div id="movieGrid" class="movie-grid"></div>
-      <div id="emptyState" class="empty-state"><div class="empty-icon">▣</div><h3>Your movie shelf is waiting</h3><p>Movies added by the admin will appear here.</p></div>
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">▣</div>
+        <h3>Your movie shelf is waiting</h3>
+        <p>Movies added by the admin will appear here.</p>
+      </div>
     </section>
 
     <section id="adminPanel" class="admin-panel" hidden>
-      <div class="section-heading"><div><p class="eyebrow">LOCAL PREVIEW ONLY</p><h2>Admin demo</h2></div><span class="demo-tag">DEMO</span></div>
-      <p class="notice">This is a front-end prototype. Changes are saved only in this browser. It does not provide secure admin accounts or a shared online database yet.</p>
-      <form id="movieForm" class="movie-form">
-        <label>Movie title<input id="titleInput" required maxlength="80" placeholder="Enter movie title"></label>
-        <label>Category<input id="genreInput" required maxlength="30" placeholder="e.g. Drama, Comedy"></label>
-        <label>Poster image URL<input id="posterInput" type="url" placeholder="https://..."></label>
-        <label>Authorized video URL<input id="videoInput" type="url" placeholder="https://..."></label>
-        <label>Description<textarea id="descriptionInput" maxlength="240" rows="3" placeholder="Short description"></textarea></label>
-        <button class="primary-btn" type="submit">Add to library</button>
-      </form>
-      <p class="fine-print">Only add videos you own, have permission to share, or that are licensed for your use. Do not upload or link to unauthorized copies.</p>
+      <div class="section-heading">
+        <div><p class="eyebrow">SECURE ACCESS</p><h2>Admin panel</h2></div>
+        <span class="demo-tag">ADMIN</span>
+      </div>
+
+      <div id="loginArea">
+        <p class="notice">Sign in using your registered administrator account.</p>
+        <form id="loginForm" class="movie-form">
+          <label>Email
+            <input id="adminEmail" type="email" required autocomplete="username" placeholder="Your admin email">
+          </label>
+          <label>Password
+            <input id="adminPassword" type="password" required autocomplete="current-password" placeholder="Your password">
+          </label>
+          <button class="primary-btn" type="submit">Sign in</button>
+        </form>
+        <p id="loginStatus" class="fine-print" aria-live="polite"></p>
+      </div>
+
+      <div id="adminTools" hidden>
+        <p class="notice">You are signed in as an administrator.</p>
+        <button id="signOutButton" class="outline-btn" type="button">Sign out</button>
+
+        <form id="movieForm" class="movie-form">
+          <label>Movie title
+            <input id="titleInput" required maxlength="80" placeholder="Enter movie title">
+          </label>
+          <label>Category
+            <input id="genreInput" required maxlength="30" placeholder="e.g. Drama, Comedy">
+          </label>
+          <label>Poster image URL
+            <input id="posterInput" type="url" placeholder="https://...">
+          </label>
+          <label>Authorized video URL
+            <input id="videoInput" type="url" placeholder="https://...">
+          </label>
+          <label>Description
+            <textarea id="descriptionInput" maxlength="240" rows="3" placeholder="Short description"></textarea>
+          </label>
+          <button class="primary-btn" type="submit">Add to library</button>
+        </form>
+      </div>
+
+      <p class="fine-print">Only add videos you own, have permission to share, or that are licensed for your use.</p>
     </section>
   </main>
 
-  <footer><span>© <span id="year"></span> Pahuway Movies</span><span>Made for a relaxing movie break.</span></footer>
-  <dialog id="movieDialog"><button class="dialog-close" id="closeDialog" aria-label="Close">×</button><div id="dialogContent"></div></dialog>
+  <footer>
+    <span>© <span id="year"></span> Pahuway Movies</span>
+    <span>Made for a relaxing movie break.</span>
+  </footer>
+
+  <dialog id="movieDialog">
+    <button class="dialog-close" id="closeDialog" aria-label="Close">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./app.js"></script>
 </body>
 </html>
