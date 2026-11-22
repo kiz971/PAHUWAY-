@@ -128,3 +128,17 @@ body {
     border-top: 1px solid #ffffff20;
   }
 }
+/* PAHUWAY MOVIES LOGO */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo {
+  display: block;
+  width: 170px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
