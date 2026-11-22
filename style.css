@@ -39,3 +39,36 @@
     display: block;
   }
 }
+/* PAHUWAY MOVIES - BOTTOM NAVIGATION */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 8px calc(12px + env(safe-area-inset-bottom));
+  background: #171c29f5;
+  border-top: 1px solid #ffffff20;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+}
+
+.bottom-nav button {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: #a3adbf;
+  font: 600 12px "DM Sans", sans-serif;
+  padding: 8px 4px;
+  cursor: pointer;
+}
+
+.bottom-nav button.active {
+  color: #a78bfa;
+}
+
+body {
+  padding-bottom: 85px;
+    }
