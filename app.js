@@ -404,3 +404,25 @@ db.auth.onAuthStateChange(() => {
     loadMovies();
   }, 0);
 });
+
+// BOTTOM NAVIGATION TABS
+const linkTab = $("linkTab");
+const aiMoviesTab = $("aiMoviesTab");
+const libraryTab = $("libraryTab");
+
+function switchTab(tab) {
+  $("linkSection").hidden = tab !== "link";
+  $("aiMoviesSection").hidden = tab !== "ai";
+  $("library").hidden = tab !== "library";
+
+  linkTab.classList.toggle("active", tab === "link");
+  aiMoviesTab.classList.toggle("active", tab === "ai");
+  libraryTab.classList.toggle("active", tab === "library");
+}
+
+linkTab.addEventListener("click", () => switchTab("link"));
+aiMoviesTab.addEventListener("click", () => switchTab("ai"));
+libraryTab.addEventListener("click", () => switchTab("library"));
+
+// Default tab
+switchTab("link");
