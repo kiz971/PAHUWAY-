@@ -70,6 +70,42 @@
   <button type="button" id="libraryTab">LIBRARY</button>
 </nav>
 
+    <!-- LINK MOVIES SECTION -->
+<section id="linkSection" class="library" hidden>
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">WATCH ONLINE</p>
+      <h2>Movie Links</h2>
+    </div>
+    <span class="count" id="linkCount">0 titles</span>
+  </div>
+
+  <div id="linkGrid" class="movie-grid"></div>
+
+  <div id="linkEmptyState" class="empty-state">
+    <h3>No movie links yet</h3>
+    <p>Movie links added by the admin will appear here.</p>
+  </div>
+</section>
+
+<!-- AI MOVIES SECTION -->
+<section id="aiMoviesSection" class="library" hidden>
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">ORIGINAL CONTENT</p>
+      <h2>AI Movies</h2>
+    </div>
+    <span class="count" id="aiMovieCount">0 titles</span>
+  </div>
+
+  <div id="aiMovieGrid" class="movie-grid"></div>
+
+  <div id="aiMovieEmptyState" class="empty-state">
+    <h3>No AI movies yet</h3>
+    <p>Original AI movies will appear here.</p>
+  </div>
+</section>
+
     <section id="adminPanel" class="admin-panel" hidden>
       <div class="section-heading">
         <div><p class="eyebrow">SECURE ACCESS</p><h2>Admin panel</h2></div>
@@ -112,6 +148,44 @@
           </label>
           <button class="primary-btn" type="submit">Add to library</button>
         </form>
+
+
+        <!-- ADD MOVIE LINK -->
+        <h3>ADD MOVIE LINK</h3>
+        <form id="linkForm" class="movie-form">
+          <label>Movie title
+            <input id="linkTitle" required maxlength="80">
+          </label>
+          <label>Poster image URL
+            <input id="linkPoster" type="url">
+          </label>
+          <label>Video link
+            <input id="linkVideo" type="url" required>
+          </label>
+          <label>Description
+            <textarea id="linkDescription" maxlength="240" rows="3"></textarea>
+          </label>
+          <button class="primary-btn" type="submit">Publish Movie Link</button>
+        </form>
+
+        <!-- UPLOAD AI MOVIE -->
+        <h3>UPLOAD AI MOVIE</h3>
+        <form id="aiMovieForm" class="movie-form">
+          <label>Movie title
+            <input id="aiTitle" required maxlength="80">
+          </label>
+          <label>Poster image
+            <input id="aiPosterFile" type="file" accept="image/jpeg,image/png,image/webp" required>
+          </label>
+          <label>Video file
+            <input id="aiVideoFile" type="file" accept="video/mp4,video/webm,video/quicktime" required>
+          </label>
+          <label>Description
+            <textarea id="aiDescription" maxlength="240" rows="3"></textarea>
+          </label>
+          <button class="primary-btn" type="submit">Upload AI Movie</button>
+        </form>
+        
       </div>
 
       <p class="fine-print">Only add videos you own, have permission to share, or that are licensed for your use.</p>
