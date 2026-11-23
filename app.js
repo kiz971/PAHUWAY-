@@ -382,6 +382,40 @@ $("signOutButton").addEventListener("click", async () => {
   await loadMovies();
 });
 
+// ADD MOVIE LINK TO DATABASE
+$("linkForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!isAdmin) {
+    alert("Administrator access required.");
+    return;
+  }
+
+  const movie = {
+    title: $("linkTitle").value.trim(),
+    poster_url: safeUrl($("linkPoster").value) || null,
+    video_url: safeUrl($("linkVideo").value),
+    description: $("linkDescription").value.trim(),
+    is_published: true
+  };
+
+  if (!movie.title || !movie.video_url) {
+    alert("Please enter a valid movie title and link.");
+    return;
+  }
+
+  const { error } = await db.from("movie_links").insert(movie);
+
+  if (error) {
+    alert("Unable to save movie link: " + error.message);
+    return;
+  }
+
+  event.target.reset();
+  await loadMovieLinks();
+  alert("Movie link added successfully!");
+});
+
 // Add movie to online database
 $("movieForm").addEventListener("submit", async (event) => {
   event.preventDefault();
