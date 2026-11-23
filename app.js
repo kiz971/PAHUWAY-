@@ -76,6 +76,56 @@ async function loadMovies() {
 
   render();
 }
+// LOAD MOVIE LINKS
+async function loadMovieLinks() {
+  const { data, error } = await db
+    .from("movie_links")
+    .select("*")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Movie links error:", error);
+    return;
+  }
+
+  const grid = $("linkGrid");
+  grid.innerHTML = "";
+
+  (data || []).forEach(movie => {
+    const card = document.createElement("article");
+    card.className = "movie-card";
+
+    const info = document.createElement("div");
+    info.className = "movie-info";
+
+    const title = document.createElement("h3");
+    title.textContent = movie.title;
+
+    const desc = document.createElement("p");
+    desc.textContent = movie.description || "";
+
+    info.append(title, desc);
+
+    if (safeUrl(movie.video_url)) {
+      const link = document.createElement("a");
+      link.href = safeUrl(movie.video_url);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.className = "watch-link";
+      link.textContent = "OPEN MOVIE";
+      info.append(link);
+    }
+
+    card.append(info);
+    grid.append(card);
+  });
+
+  $("linkCount").textContent =
+    `${data.length} ${data.length === 1 ? "title" : "titles"}`;
+
+  $("linkEmptyState").hidden = data.length > 0;
+}
 
 function render() {
   const term = $("searchInput").value.trim().toLowerCase();
@@ -397,6 +447,7 @@ $("year").textContent = new Date().getFullYear();
 // Start app
 setAdminUI();
 loadMovies();
+loadMovieLinks();
 
 db.auth.onAuthStateChange(() => {
   setTimeout(() => {
