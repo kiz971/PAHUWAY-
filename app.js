@@ -89,10 +89,11 @@ async function loadMovieLinks() {
     return;
   }
 
+  const linkMovies = data || [];
   const grid = $("linkGrid");
   grid.innerHTML = "";
 
-  (data || []).forEach(movie => {
+  linkMovies.forEach(movie => {
     const card = document.createElement("article");
     card.className = "movie-card";
 
@@ -118,13 +119,39 @@ async function loadMovieLinks() {
     }
 
     card.append(info);
+
+    if (isAdmin) {
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "DELETE";
+      deleteBtn.className = "outline-btn";
+
+      deleteBtn.addEventListener("click", async () => {
+        if (!confirm("Delete this movie link?")) return;
+
+        const { error } = await db
+          .from("movie_links")
+          .delete()
+          .eq("id", movie.id);
+
+        if (error) {
+          alert("Unable to delete: " + error.message);
+          return;
+        }
+
+        alert("Movie link deleted!");
+        await loadMovieLinks();
+      });
+
+      card.append(deleteBtn);
+    }
+
     grid.append(card);
   });
 
   $("linkCount").textContent =
-    `${data.length} ${data.length === 1 ? "title" : "titles"}`;
+    `${linkMovies.length} ${linkMovies.length === 1 ? "title" : "titles"}`;
 
-  $("linkEmptyState").hidden = data.length > 0;
+  $("linkEmptyState").hidden = linkMovies.length > 0;
 }
 
 function render() {
