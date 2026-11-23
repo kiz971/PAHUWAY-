@@ -197,7 +197,7 @@ async function loadAIMovies() {
 
     if (movie.storage_path) {
       const { data: videoData } = db.storage
-        .from("ai-movies")
+        .from("AI MOVIES")
         .getPublicUrl(movie.storage_path);
 
       const watchLink = document.createElement("a");
