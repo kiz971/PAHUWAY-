@@ -512,6 +512,7 @@ $("linkForm").addEventListener("submit", async (event) => {
 // UPLOAD AI MOVIE TO SUPABASE
 $("aiMovieForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+  alert("AI upload handler is working!");
 
   if (!isAdmin) {
     alert("Administrator access required.");
