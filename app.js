@@ -568,7 +568,12 @@ $("aiMovieForm").addEventListener("submit", async (event) => {
       is_published: true
     });
 
-    if (error) throw error;
+    if (error) {
+  console.error("AI MOVIE DATABASE ERROR:", error);
+  alert("DATABASE ERROR: " + error.message);
+  throw error;
+    }
+    
 
     event.target.reset();
     await loadAIMovies();
