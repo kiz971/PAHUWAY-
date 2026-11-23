@@ -154,6 +154,72 @@ async function loadMovieLinks() {
   $("linkEmptyState").hidden = linkMovies.length > 0;
 }
 
+// LOAD AI MOVIES
+async function loadAIMovies() {
+  const { data, error } = await db
+    .from("ai_movies")
+    .select("*")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("AI Movies error:", error);
+    return;
+  }
+
+  const grid = $("aiMovieGrid");
+  grid.innerHTML = "";
+
+  const aiMovies = data || [];
+
+  aiMovies.forEach(movie => {
+    const card = document.createElement("article");
+    card.className = "movie-card";
+
+    if (movie.poster_url) {
+      const poster = document.createElement("img");
+      poster.src = safeUrl(movie.poster_url);
+      poster.alt = movie.title;
+      poster.loading = "lazy";
+      card.append(poster);
+    }
+
+    const info = document.createElement("div");
+    info.className = "movie-info";
+
+    const title = document.createElement("h3");
+    title.textContent = movie.title;
+
+    const desc = document.createElement("p");
+    desc.textContent = movie.description || "";
+
+    info.append(title, desc);
+
+    if (movie.storage_path) {
+      const { data: videoData } = db.storage
+        .from("ai-movies")
+        .getPublicUrl(movie.storage_path);
+
+      const watchLink = document.createElement("a");
+      watchLink.href = videoData.publicUrl;
+      watchLink.target = "_blank";
+      watchLink.rel = "noopener noreferrer";
+      watchLink.className = "watch-link";
+      watchLink.textContent = "WATCH MOVIE";
+
+      info.append(watchLink);
+    }
+
+    card.append(info);
+    grid.append(card);
+  });
+
+  $("aiMovieCount").textContent =
+    `${aiMovies.length} ${aiMovies.length === 1 ? "title" : "titles"}`;
+
+  $("aiMovieEmptyState").hidden = aiMovies.length > 0;
+}
+
 function render() {
   const term = $("searchInput").value.trim().toLowerCase();
   const category = $("categoryFilter").value;
@@ -504,6 +570,7 @@ $("aiMovieForm").addEventListener("submit", async (event) => {
     if (error) throw error;
 
     event.target.reset();
+    await loadAIMovies();
     alert("AI Movie uploaded successfully!");
 
   } catch (error) {
