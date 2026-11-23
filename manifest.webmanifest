@@ -1,9 +1,20 @@
 {
+  "id": "./",
   "name": "Pahuway Movies",
   "short_name": "Pahuway",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0d1018",
   "theme_color": "#10131d",
-  "description": "Pahuway Movies web app"
+  "description": "Pahuway Movies web app",
+  "icons": [
+    {
+      "src": "./pahuway-logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
