@@ -157,7 +157,7 @@ async function loadMovieLinks() {
 // LOAD AI MOVIES
 async function loadAIMovies() {
   const { data, error } = await db
-    .from("ai_movies")
+    .from("AI MOVIES")
     .select("*")
     .eq("is_published", true)
     .order("created_at", { ascending: false });
@@ -544,19 +544,19 @@ $("aiMovieForm").addEventListener("submit", async (event) => {
 
   try {
     const posterUpload = await db.storage
-      .from("ai-movies")
+      .from("AI MOVIES")
       .upload(posterPath, posterFile);
 
     if (posterUpload.error) throw posterUpload.error;
 
     const videoUpload = await db.storage
-      .from("ai-movies")
+      .from("AI MOVIES")
       .upload(videoPath, videoFile);
 
     if (videoUpload.error) throw videoUpload.error;
 
     const { data: posterData } = db.storage
-      .from("ai-movies")
+      .from("AI MOVIES")
       .getPublicUrl(posterPath);
 
     const { error } = await db.from("ai_movies").insert({
