@@ -426,3 +426,11 @@ libraryTab.addEventListener("click", () => switchTab("library"));
 
 // Default tab
 switchTab("link");
+// REGISTER SERVICE WORKER
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Pahuway Movies is ready to install!"))
+      .catch(error => console.error("Service Worker error:", error));
+  });
+}
