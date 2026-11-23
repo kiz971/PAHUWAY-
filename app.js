@@ -443,6 +443,78 @@ $("linkForm").addEventListener("submit", async (event) => {
   alert("Movie link added successfully!");
 });
 
+// UPLOAD AI MOVIE TO SUPABASE
+$("aiMovieForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!isAdmin) {
+    alert("Administrator access required.");
+    return;
+  }
+
+  const title = $("aiTitle").value.trim();
+  const posterFile = $("aiPosterFile").files[0];
+  const videoFile = $("aiVideoFile").files[0];
+  const description = $("aiDescription").value.trim();
+
+  if (!title || !posterFile || !videoFile) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  if (posterFile.size > 50 * 1024 * 1024 ||
+      videoFile.size > 50 * 1024 * 1024) {
+    alert("Each file must be 50 MB or smaller.");
+    return;
+  }
+
+  const button = event.target.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Uploading...";
+
+  const posterPath = "posters/" + Date.now() + "-" + posterFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const videoPath = "videos/" + Date.now() + "-" + videoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+  try {
+    const posterUpload = await db.storage
+      .from("ai-movies")
+      .upload(posterPath, posterFile);
+
+    if (posterUpload.error) throw posterUpload.error;
+
+    const videoUpload = await db.storage
+      .from("ai-movies")
+      .upload(videoPath, videoFile);
+
+    if (videoUpload.error) throw videoUpload.error;
+
+    const { data: posterData } = db.storage
+      .from("ai-movies")
+      .getPublicUrl(posterPath);
+
+    const { error } = await db.from("ai_movies").insert({
+      title: title,
+      description: description,
+      poster_url: posterData.publicUrl,
+      video_url: null,
+      storage_path: videoPath,
+      is_published: true
+    });
+
+    if (error) throw error;
+
+    event.target.reset();
+    alert("AI Movie uploaded successfully!");
+
+  } catch (error) {
+    console.error("AI Movie upload error:", error);
+    alert("Upload failed: " + error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Upload AI Movie";
+  }
+});
+
 // Add movie to online database
 $("movieForm").addEventListener("submit", async (event) => {
   event.preventDefault();
